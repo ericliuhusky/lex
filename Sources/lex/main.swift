@@ -10,6 +10,18 @@
 
 
 let nfa = NFA(regex: "a|b")
-nfa.get(char: "a")
-nfa.get(char: "c")
-print(nfa.isMatch)
+let nfa2 = NFA(regex: "cd")
+
+let nfa3 = nfa.union(nfa2)
+nfa3.reset()
+for c in "bcd" {
+    nfa3.get(char: c) { state in
+        if state == nfa.acceptState {
+            print("nfa")
+            nfa3.reset()
+        } else if state == nfa2.acceptState {
+            print("nfa2")
+            nfa3.reset()
+        }
+    }
+}

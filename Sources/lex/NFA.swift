@@ -64,15 +64,17 @@ class NFA {
     }
     
     private var current: Node?
-    private func visit(node: Node?, char: Character) {
+    private func visit(node: Node?, char: Character, block: (Int?) -> Void) {
         guard let node = node else { return }
         current = node
         
+        block(node.id)
+        
         if node.char == nil {
-            visit(node: node.left, char: char)
-            visit(node: node.right, char: char)
+            visit(node: node.left, char: char, block: block)
+            visit(node: node.right, char: char, block: block)
         } else if node.char == char {
-            visit(node: node.left, char: char)
+            visit(node: node.left, char: char, block: block)
         }
     }
     
@@ -80,12 +82,26 @@ class NFA {
         current = from
     }
     
-    func get(char: Character) {
-        visit(node: current, char: char)
+    func get(char: Character, block: (Int?) -> Void) {
+        visit(node: current, char: char, block: block)
     }
     
     var isMatch: Bool {
         current?.id == to.id
+    }
+    
+    var acceptState: Int {
+        to.id
+    }
+    
+    func union(_ other: NFA) -> NFA {
+        let n1 = Node()
+        let n2 = Node()
+        n1.left = from
+        n1.right = other.from
+        to.left = n2
+        other.to.left = n2
+        return NFA(from: n1, to: n2)
     }
 }
 
