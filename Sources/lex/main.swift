@@ -9,7 +9,7 @@
 
 
 
-let nfa = NFA(suffix: "ab|")
+let nfa = NFA(regex: "a|b")
 nfa.get(char: "a")
 nfa.get(char: "c")
 print(nfa.isMatch)

@@ -14,7 +14,8 @@ class NFA {
         self.to = to
     }
     
-    init(suffix: String) {
+    init(regex: String) {
+        let suffix = regex.regexToSuffix()
         var stack = [NFA]()
         for char in suffix {
             switch char {
