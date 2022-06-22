@@ -64,7 +64,9 @@ class NFA {
     }
     
     private var current: Node?
+    private var stop = false
     private func visit(node: Node?, char: Character, block: (Int?) -> Void) {
+        if stop { return }
         guard let node = node else { return }
         current = node
         
@@ -80,9 +82,11 @@ class NFA {
     
     func reset() {
         current = from
+        stop = true
     }
     
     func get(char: Character, block: (Int?) -> Void) {
+        stop = false
         visit(node: current, char: char, block: block)
     }
     

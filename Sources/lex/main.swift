@@ -14,7 +14,7 @@ let nfa2 = NFA(regex: "cd")
 
 let nfa3 = nfa.union(nfa2)
 nfa3.reset()
-for c in "bcd" {
+for c in "abcd" {
     nfa3.get(char: c) { state in
         if state == nfa.acceptState {
             print("nfa")
